@@ -37,7 +37,7 @@ impl_enter_critical(int thread)
 
         /* Set want to get in flag to thread ID */
         flag[thread] = 1;
-
+        MFENCE();
         /* HINT: Since Dekker's algorithm only works for 2 threads,
          * with the ID 0 and 1, you may use !thread to get the ID the
          * other thread. */
@@ -50,8 +50,10 @@ impl_enter_critical(int thread)
           while (flag[!thread] == 1) { //Synchronize with other thread
             if (turn != thread) {   //Not my turn, set flag to 0
               flag[thread] = 0;
+              MFENCE();
               while (turn != thread) {}; //Spin on lock until my turn
               flag[thread] = 1; // My turn, woho! Show it to other thread
+              MFENCE();
             };
         };
 
@@ -73,9 +75,11 @@ impl_exit_critical(int thread)
         if (thread == 0) {
           turn = 1;
           flag[thread] = 0;
+          MFENCE();
         } else {
           turn = 0;
           flag[thread] = 0;
+          MFENCE();
         };
 
 
