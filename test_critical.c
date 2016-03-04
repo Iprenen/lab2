@@ -54,19 +54,7 @@ decrease(int thread, int iterations, volatile int *data)
         }
 }
 
-/* Code for enter_critical function, locks *data */
 
-static void
-enter_critical(thread) {
-  impl_enter_critical(thread);
-
-}
-
-static void
-exit_critical(thread) {
-
-        impl_exit_critical(thread);
-}
 
 test_impl_t test_impl_critical = {
         .name = "critical",
