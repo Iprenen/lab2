@@ -2,7 +2,7 @@
  * Experimenting with synchronization and memory consistency. Dekker's
  * algorithm version of critical sections.
  *
- * 
+ *
  * Course: Advanced Computer Architecture, Uppsala University
  * Course Part: Lab assignment 2
  *
@@ -13,6 +13,7 @@
 #include <assert.h>
 
 #include "lab2.h"
+#include "unistd.h"
 
 #if defined(__GNUC__) && defined(__SSE2__)
 /** Macro to insert memory fences */
@@ -34,12 +35,25 @@ impl_enter_critical(int thread)
 {
         assert(thread == 0 || thread == 1);
 
+        /* Set want to get in flag to thread ID */
+        flag[thread] = 1;
+
         /* HINT: Since Dekker's algorithm only works for 2 threads,
          * with the ID 0 and 1, you may use !thread to get the ID the
          * other thread. */
 
         /* TASK: Implement entry code for Dekker's algorithm here */
-}
+
+          // Spin lock algoritm for dekker.
+
+
+          while (flag[!thread] == 1) { //Synchronize with other thread
+            if (turn != thread) {   //Not my turn, set flag to 0
+              flag[thread] = 0;
+              while (turn != thread) {}; //Spin on lock until my turn
+              flag[thread] = 1; // My turn, woho! Show it to other thread
+            };
+        };
 
 /**
  * Exit from a critical section.
@@ -52,7 +66,19 @@ impl_exit_critical(int thread)
         assert(thread == 0 || thread == 1);
 
         /* TASK: Implement exit code for Dekker's algorithm here */
-}
+        /* Set flag to 0 and set turn to the other thread */
+
+        if (thread == 0) {
+          turn = 1;
+          flag[thread] = 0;
+        } else {
+          turn = 0;
+          flag[thread] = 0;
+        };
+
+
+
+};
 
 
 critical_section_impl_t cs_impl_dekker = {
