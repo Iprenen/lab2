@@ -13,7 +13,6 @@
 #include <assert.h>
 
 #include "lab2.h"
-#include "unistd.h"
 
 #if defined(__GNUC__) && defined(__SSE2__)
 /** Macro to insert memory fences */
