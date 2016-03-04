@@ -22,7 +22,7 @@ increase(int thread, int iterations, volatile int *data)
          */
 
          for (int i = 0; i < iterations; i++) {
-           while (thread == *data) {};
+           while (thread != *data) {};
              asm_inc_int32((int32_t *)data);
 
          }
@@ -35,7 +35,7 @@ decrease(int thread, int iterations, volatile int *data)
          * non-atomic decrement instructions. See lab2_asm.h.
          */
          for (int i = 0; i < iterations; i++) {
-           while (thread == *data) {};
+           while (thread != *data) {};
              asm_dec_int32((int32_t *)data);
 
          }
