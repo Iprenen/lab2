@@ -38,7 +38,7 @@ increase_atomic(int thread, int iterations, volatile int *data)
          * atomic compare and exchange instructions. See lab2_asm.h.
          */
          for (int i = 0; i < iterations;) {
-           if (*data == 1) {
+           if (*data == 0) {
              asm_atomic_cmpxchg_int32((int32_t *)data,0,1);
              i++;
            }
