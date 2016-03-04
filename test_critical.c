@@ -10,11 +10,6 @@
  */
 
 #include "lab2.h"
-#include "pthread.h"
-
-pthread_mutex_t mutex;
-
-pthread_mutex_init(&mutex, NULL);
 
 /**
  * Code for thread 0, increments the shared variable 'data',
@@ -62,16 +57,14 @@ decrease(int thread, int iterations, volatile int *data)
 
 static void
 enter_critical(thread) {
+  impl_enter_critical(thread);
 
-        pthread_mutex_lock(&mutex); //Lock the critical section
-        printf("Thread %s is in critical section", thread);
 }
 
 static void
 exit_critical(thread) {
 
-        pthread_mutex_unlock(&mutex); //Lock the critical section
-        printf("Thread %s leaves critical section", thread);
+        impl_exit_critical(thread);
 }
 
 test_impl_t test_impl_critical = {
