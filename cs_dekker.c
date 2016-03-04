@@ -55,6 +55,8 @@ impl_enter_critical(int thread)
             };
         };
 
+};
+
 /**
  * Exit from a critical section.
  *
