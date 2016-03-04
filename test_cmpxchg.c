@@ -55,11 +55,7 @@ increase_atomic(int thread, int iterations, volatile int *data)
          */
 
          for (int i = 0; i < iterations; i++) {
-           while (1) {
-            if (asm_atomic_cmpxchg_int32((int32_t *) &flag,0,1) == 0)
-              break;
-            while (flag != 0) {};
-           }
+           while (asm_atomic_cmpxchg_int32((int32_t *) &flag,0,1) == 0) {}
            (*data)++;
            flag = 0;
        }
@@ -74,11 +70,7 @@ decrease_atomic(int thread, int iterations, volatile int *data)
          * atomic compare and exchange instructions. See lab2_asm.h.
          */
          for (int i = 0; i < iterations; i++) {
-           while (1) {
-            if (asm_atomic_cmpxchg_int32((int32_t *) &flag,0,1) == 0)
-              break;
-            while (flag != 0) {};
-           }
+            while (asm_atomic_cmpxchg_int32((int32_t *) &flag,0,1) == 0){}
            (*data)--;
            flag = 0;
        }
