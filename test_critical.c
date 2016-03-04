@@ -1,7 +1,7 @@
 /**
  * Implementation of test cases using critical sections.
  *
- * 
+ *
  * Course: Advanced Computer Architecture, Uppsala University
  * Course Part: Lab assignment 2
  *
@@ -10,6 +10,11 @@
  */
 
 #include "lab2.h"
+#include "pthread.h"
+
+pthread_mutex_t mutex;
+
+pthread_mutex_init(&mutex, NULL);
 
 /**
  * Code for thread 0, increments the shared variable 'data',
@@ -24,9 +29,11 @@ increase(int thread, int iterations, volatile int *data)
                  * exit_critical(thread) to define a critical section
                  * around the code that needs to execute atomically.
                  */
+                enter_critical(thread);
                 a = *data;
                 a++;
                 *data = a;
+                exit_critical(thread);
         }
 }
 
@@ -43,10 +50,28 @@ decrease(int thread, int iterations, volatile int *data)
                  * exit_critical(thread) to define a critical section
                  * around the code that needs to execute atomically.
                  */
+                enter_critical(thread);
                 a = *data;
                 a--;
                 *data = a;
+                exit_critical(thread);
         }
+}
+
+/* Code for enter_critical function, locks *data */
+
+static void
+enter_critical(thread) {
+
+        pthread_mutex_lock(&mutex); //Lock the critical section
+        printf("Thread %s is in critical section", thread);
+}
+
+static void
+exit_critical(thread) {
+
+        pthread_mutex_unlock(&mutex); //Lock the critical section
+        printf("Thread %s leaves critical section", thread);
 }
 
 test_impl_t test_impl_critical = {
@@ -91,4 +116,3 @@ test_impl_t test_impl_critical8 = {
  * c-file-style: "linux"
  * End:
  */
-
