@@ -51,9 +51,8 @@ increase_atomic(int thread, int iterations, volatile int *data)
          * atomic increment instructions. See lab2_asm.h.
          */
          for (int i = 0; i < iterations; i++) {
-           while (thread == *data) {
+           while (thread != *data) {};
              asm_atomic_inc_int32((int32_t *)data);
-           }
 
          }
 
@@ -68,9 +67,8 @@ decrease_atomic(int thread, int iterations, volatile int *data)
          */
 
          for (int i = 0; i < iterations; i++) {
-           while (thread == *data) {
+           while (thread != *data) {};
              asm_atomic_dec_int32((int32_t *)data);
-           }
 
          }
 }
