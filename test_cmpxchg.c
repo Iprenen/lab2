@@ -13,6 +13,8 @@
 
 #include "lab2_asm.h"
 
+volatile int32_t flag = 0;
+
 static void
 increase(int thread, int iterations, volatile int *data)
 {
@@ -52,6 +54,16 @@ increase_atomic(int thread, int iterations, volatile int *data)
          * atomic compare and exchange instructions. See lab2_asm.h.
          */
 
+         for (int i = 0; i < iterations; i++) {
+           while (true) {
+            if (asm_atomic_cmpxchg_int32((int32_t *) &flag,0,1))
+              break;
+            while (flag != 0) {};
+           }
+           (*data)++;
+           flag = 0;
+       }
+
 
 }
 
@@ -61,6 +73,15 @@ decrease_atomic(int thread, int iterations, volatile int *data)
         /* TASK: Implement a loop that decrements *data by 1 using
          * atomic compare and exchange instructions. See lab2_asm.h.
          */
+         for (int i = 0; i < iterations; i++) {
+           while (true) {
+            if (asm_atomic_cmpxchg_int32((int32_t *) &flag,0,1))
+              break;
+            while (flag != 0) {};
+           }
+           (*data)--;
+           flag = 0;
+       }
 
 }
 
