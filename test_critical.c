@@ -10,7 +10,7 @@
  */
 
 #include "lab2.h"
-#include <cs_pthreads.c>
+
 
 /**
  * Code for thread 0, increments the shared variable 'data',
