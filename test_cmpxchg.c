@@ -19,6 +19,7 @@ increase(int thread, int iterations, volatile int *data)
         /* TASK: Implement a loop that increments *data by 1 using
          * non-atomic compare and exchange instructions. See lab2_asm.h.
          */
+
 }
 
 static void
@@ -36,6 +37,10 @@ increase_atomic(int thread, int iterations, volatile int *data)
         /* TASK: Implement a loop that increments *data by 1 using
          * atomic compare and exchange instructions. See lab2_asm.h.
          */
+         for (int i = 0; i < iterations; i++) {
+           asm_atomic_cmpxchg_int32((int32_t *)data, int32_t 0, int32_t 1);
+         }
+
 }
 
 static void
@@ -44,6 +49,9 @@ decrease_atomic(int thread, int iterations, volatile int *data)
         /* TASK: Implement a loop that decrements *data by 1 using
          * atomic compare and exchange instructions. See lab2_asm.h.
          */
+         for (int i = 0; i < iterations; i++) {
+           asm_atomic_cmpxchg_int32((int32_t *)data, int32_t 1, int32_t 0);
+         }
 }
 
 test_impl_t test_impl_cmpxchg_no_atomic = {
@@ -70,4 +78,3 @@ test_impl_t test_impl_cmpxchg_atomic = {
  * c-file-style: "linux"
  * End:
  */
-
