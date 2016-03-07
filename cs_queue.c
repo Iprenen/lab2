@@ -2,7 +2,7 @@
  * Experimenting with synchronization and memory consistency. Queue
  * locks version of critical sections.
  *
- * 
+ *
  * Course: Advanced Computer Architecture, Uppsala University
  * Course Part: Lab assignment 2
  *
@@ -67,6 +67,12 @@ lh_acquire(int ** volatile l, int ** volatile i, volatile int ** volatile p)
         assert (*i == *p);
         /* BONUS TASK: Implement the acquire part of the CLH locking
          * algorithm as described in the lecture notes. */
+
+         /* Set values for acquiring locks */
+         **i = 1;
+         asm_atomic_xchg_voidp((void **) l, (void *) *p);
+         while (*p != 0) {};
+
 }
 
 /**
@@ -80,6 +86,11 @@ lh_release(int **i, int **p)
         assert (*i != *p);
         /* BONUS TASK: Implement the release part of the CLH locking
          * algorithm as described in the lecture notes. */
+         /* Reset values to release lock */
+
+         **i = 0;
+         *i = *p;
+
 }
 
 static void
