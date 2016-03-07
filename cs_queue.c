@@ -75,7 +75,7 @@ lh_acquire(int ** volatile l, int ** volatile i, volatile int ** volatile p)
          *p = asm_atomic_xchg_voidp((void **) l, (void *) *p);
          printf("%p; %d\n",*l, **l);
          printf("%p; %d\n\n", *p, **p);
-         while (*p != 0) {};
+         while (**p != 0) {};
 
 }
 
