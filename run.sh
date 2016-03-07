@@ -18,14 +18,12 @@ echo "cmpxchg"
 ./lab2 -t cmpxchg_no_atomic -c pthreads
 
 
-echo "\n"
+echo ""
 
 echo "Dekker tests"
 
 echo "critical"
 ./lab2 -t critical -c dekker
-./lab2 -t critical4 -c dekker
-./lab2 -t critical8 -c dekker
 
 echo "incdec"
 ./lab2 -t incdec_no_atomic -c dekker
@@ -34,7 +32,7 @@ echo "cmpxchg"
 ./lab2 -t cmpxchg_atomic -c dekker
 ./lab2 -t cmpxchg_no_atomic -c dekker
 
-echo "\n"
+echo ""
 
 echo "CLH tests"
 
