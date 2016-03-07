@@ -70,7 +70,9 @@ lh_acquire(int ** volatile l, int ** volatile i, volatile int ** volatile p)
 
          /* Set values for acquiring locks */
          **i = 1;
+         printf("%d; %d\n", **l, *l);
          asm_atomic_xchg_voidp((void **) l, (void *) *p);
+         printf("%d; %d\n",**l, *l);
          while (*p != 0) {};
 
 }
